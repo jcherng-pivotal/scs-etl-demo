@@ -27,5 +27,32 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("jdbc-event-processor")
 @Validated
 public class JdbcEventProcessorProperties {
+	private String customerSql;
+	private String itemSql;
+	private String customerOrderSql;
+
+	public String getCustomerSql() {
+		return customerSql;
+	}
+
+	public void setCustomerSql(String customerSql) {
+		this.customerSql = customerSql;
+	}
+
+	public String getItemSql() {
+		return itemSql;
+	}
+
+	public void setItemSql(String itemSql) {
+		this.itemSql = itemSql;
+	}
+
+	public String getCustomerOrderSql() {
+		return customerOrderSql;
+	}
+
+	public void setCustomerOrderSql(String customerOrderSql) {
+		this.customerOrderSql = customerOrderSql;
+	}
 
 }

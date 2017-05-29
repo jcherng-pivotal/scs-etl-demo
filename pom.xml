@@ -12,6 +12,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>spring-releases</id>
@@ -34,6 +39,16 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>org.apache.geode</groupId>
+				<artifactId>geode-core</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>scs-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
 				<artifactId>jdbc-event-source</artifactId>
 				<version>${project.version}</version>
@@ -41,6 +56,11 @@
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
 				<artifactId>jdbc-event-processor</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>geode-sink</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -53,8 +73,10 @@
 	</dependencyManagement>
 
 	<modules>
+		<module>scs-model</module>
 		<module>jdbc-event-source</module>
 		<module>jdbc-event-processor</module>
+		<module>geode-sink</module>
 		<module>scs-etl-integration-tests</module>
 	</modules>
 </project>

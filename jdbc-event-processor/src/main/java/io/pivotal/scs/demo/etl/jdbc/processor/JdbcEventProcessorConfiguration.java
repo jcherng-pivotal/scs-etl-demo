@@ -16,27 +16,80 @@
 
 package io.pivotal.scs.demo.etl.jdbc.processor;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.integration.annotation.Transformer;
-import org.springframework.messaging.Message;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+
+import io.pivotal.scs.demo.etl.jdbc.processor.dao.PayloadWrapperDao;
+import io.pivotal.scs.demo.etl.jdbc.processor.dao.extrator.CustomerOrderResultSetExtractor;
+import io.pivotal.scs.demo.etl.jdbc.processor.dao.extrator.CustomerResultSetExtractor;
+import io.pivotal.scs.demo.etl.jdbc.processor.dao.extrator.ItemResultSetExtractor;
+import io.pivotal.scs.demo.etl.jdbc.processor.messaging.JdbcEventMessageHandler;
+import io.pivotal.scs.demo.model.etl.CustomerOrderPayload;
+import io.pivotal.scs.demo.model.etl.CustomerPayload;
+import io.pivotal.scs.demo.model.etl.ItemPayload;
 
 /**
- * A module that reads data from input and RDBMS by using JDBC to creates a payload.
+ * A module that reads data from input and RDBMS by using JDBC to creates a
+ * payload.
  *
  * @author Jeff Cherng
  */
 @EnableBinding(JdbcEventProcessor.class)
 @EnableConfigurationProperties(JdbcEventProcessorProperties.class)
+@PropertySource({ "classpath:src-group-sqls.xml" })
 public class JdbcEventProcessorConfiguration {
+
+	@Autowired
+	private ApplicationContext context;
 
 	@Autowired
 	private JdbcEventProcessorProperties properties;
 
-	@Transformer(inputChannel = JdbcEventProcessor.INPUT, outputChannel = JdbcEventProcessor.OUTPUT)
-	public Message<?> transform(Message<?> message) {
-		return message;
+	@Autowired
+	private JdbcEventProcessor processor;
+
+	@Autowired
+	private JdbcEventMessageHandler jdbcEventMessageHandler;
+
+	@Autowired
+	private DataSource dataSource;
+
+	@Bean
+	PayloadWrapperDao<CustomerPayload> customerDao() {
+		return new PayloadWrapperDao<>(dataSource, new CustomerResultSetExtractor(), properties.getCustomerSql());
 	}
-	
+
+	@Bean
+	PayloadWrapperDao<ItemPayload> itemDao() {
+		return new PayloadWrapperDao<>(dataSource, new ItemResultSetExtractor(), properties.getItemSql());
+	}
+
+	@Bean
+	PayloadWrapperDao<CustomerOrderPayload> customerOrderDao() {
+		return new PayloadWrapperDao<>(dataSource, new CustomerOrderResultSetExtractor(),
+				properties.getCustomerOrderSql());
+	}
+
+	@Bean
+	JdbcEventMessageHandler jdbcEventMessageHandler() {
+		return new JdbcEventMessageHandler(context);
+	}
+
+	@Bean
+	IntegrationFlow processorFlow() {
+		return IntegrationFlows
+				.from(this.processor.input())
+				.handle(jdbcEventMessageHandler)
+				.channel(this.processor.output())
+				.get();
+	}
+
 }

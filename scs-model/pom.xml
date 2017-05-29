@@ -6,23 +6,11 @@
 		<artifactId>scs-etl-build</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>scs-etl-integration-tests</artifactId>
-
+	<artifactId>scs-model</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-source</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-processor</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>geode-sink</artifactId>
-			<scope>test</scope>
+			<groupId>org.apache.geode</groupId>
+			<artifactId>geode-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>

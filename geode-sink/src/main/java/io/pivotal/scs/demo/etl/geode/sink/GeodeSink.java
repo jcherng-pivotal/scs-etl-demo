@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package io.pivotal.scs.demo.etl.jdbc.processor;
+package io.pivotal.scs.demo.etl.geode.sink;
 
 import org.springframework.cloud.stream.annotation.Input;
-import org.springframework.cloud.stream.annotation.Output;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.messaging.MessageChannel;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.SubscribableChannel;
 
 /**
- * Bindable interface with one input and one output channel.
+ * Bindable interface with one input channel.
  *
  * @see org.springframework.cloud.stream.annotation.EnableBinding
  * @author Dave Syer
  * @author Marius Bogoevici
  * @author Jeff Cherng
  */
-public interface JdbcEventProcessor {
+public interface GeodeSink {
 
-	@Input(Processor.INPUT)
+	@Input(Sink.INPUT)
 	SubscribableChannel input();
-
-	@Output(Processor.OUTPUT)
-	MessageChannel output();
 
 }

@@ -17,6 +17,7 @@
 package io.pivotal.scs.demo.etl.jdbc.source;
 
 import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.MessageChannel;
 
 /**
@@ -29,9 +30,7 @@ import org.springframework.messaging.MessageChannel;
  */
 public interface JdbcEventSource {
 
-	String OUTPUT = "output";
-
-	@Output(JdbcEventSource.OUTPUT)
+	@Output(Source.OUTPUT)
 	MessageChannel output();
 
 }
