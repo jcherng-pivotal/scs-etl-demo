@@ -1,0 +1,28 @@
+path: target/jdbc-event-source-app-0.0.1-SNAPSHOT.jar
+port: 8888
+memory: 512M
+services:
+- mysql-dev
+- rabbitmq-dev
+env:
+    spring.cloud.stream.rabbit.bindings.output.producer.autoBindDlq: true
+    spring.cloud.stream.bindings.output.binder: rabbit
+applications:
+- name: jdbc-event-source-app-dev
+  host: jdbc-event-source-app-dev
+  env:
+    SPRING_APPLICATION_JSON: '{
+      "spring.cloud.stream.bindings.output.destination":"jdbc-event", 
+      "jdbc-event-source.query":"SELECT CONCAT(SRC_GROUP, '', '', SRC_KEY) AS GROUPKEY, 
+       SRC_GROUP, SRC_KEY, 
+       ACTION_CODE, 
+       MAX(EVENT_TS) AS EVENT_TS 
+       FROM DB_EVENTS 
+       WHERE STATUS_CODE = ''0'' 
+       GROUP BY SRC_GROUP, SRC_KEY, ACTION_CODE", 
+       "jdbc-event-source.update":"UPDATE DB_EVENTS 
+        SET STATUS_CODE=''1''
+        WHERE CONCAT(SRC_GROUP, '', '', SRC_KEY) IN (:GROUPKEY)", 
+      "jdbc-event-source.split":"true", 
+      "jdbc-event-sourcec.max-rows-per-poll":"300"
+      }'

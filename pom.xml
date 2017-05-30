@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.cloud.stream.app</groupId>
-		<artifactId>app-starters-build</artifactId>
-		<version>1.2.0.RELEASE</version>
-		<relativePath />
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<groupId>org.springframework.boot</groupId>
+		<version>1.5.3.RELEASE</version>
+		<relativePath></relativePath>
 	</parent>
 	<groupId>io.pivotal.scs.demo</groupId>
 	<artifactId>scs-etl-build</artifactId>
@@ -15,6 +15,9 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<app-starters-core-dependencies.version>1.2.0.RELEASE</app-starters-core-dependencies.version>
+		<geode.version>1.1.1</geode.version>
 	</properties>
 
 	<repositories>
@@ -39,9 +42,16 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>org.springframework.cloud.stream.app</groupId>
+				<artifactId>app-starters-core-dependencies</artifactId>
+				<version>${app-starters-core-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.geode</groupId>
 				<artifactId>geode-core</artifactId>
-				<version>1.1.1</version>
+				<version>${geode.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
@@ -78,5 +88,8 @@
 		<module>jdbc-event-processor</module>
 		<module>geode-sink</module>
 		<module>scs-etl-integration-tests</module>
+		<module>jdbc-event-source-app</module>
+		<module>jdbc-event-processor-app</module>
+		<module>geode-sink-app</module>
 	</modules>
 </project>

@@ -67,6 +67,9 @@ public class GeodeClientConfiguration {
 
 	@Profile("cloud")
 	protected static class CloudConfiguration {
+		@Autowired
+		private GeodeSinkProperties properties;
+		
 		@Bean
 		@ConditionalOnMissingBean({ Cache.class, ClientCache.class })
 		@ConditionalOnClass({ ClientCache.class })
@@ -74,7 +77,7 @@ public class GeodeClientConfiguration {
 			// TODO: access the locator from binding service
 			return new ClientCacheFactory()
 					.setPdxSerializer(pdxSerializer)
-					.addPoolLocator("127.0.0.1", 10334)
+					.addPoolLocator(properties.getLocator(), properties.getPort())
 					.create();
 		}
 		
