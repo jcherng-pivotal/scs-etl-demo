@@ -8,8 +8,9 @@ public class CustomerOrderExtractor implements PayloadWrapperExtractor<CustomerO
 
 	@Override
 	public CustomerOrder extractData(PayloadWrapper<CustomerOrderPayload> payloadWrapper) {
-		CustomerOrder value = new CustomerOrder();
+		CustomerOrder value = null;
 		if (payloadWrapper.hasPayload()) {
+			value = new CustomerOrder();
 			CustomerOrderPayload payload = payloadWrapper.getPayload();
 			value.setCustomerId(payload.getCustomerId());
 			value.setShippingAddress(payload.getShippingAddress());

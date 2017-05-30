@@ -8,8 +8,9 @@ public class CustomerExtractor implements PayloadWrapperExtractor<CustomerPayloa
 
 	@Override
 	public Customer extractData(PayloadWrapper<CustomerPayload> payloadWrapper) {
-		Customer value = new Customer();
+		Customer value = null;
 		if (payloadWrapper.hasPayload()) {
+			value = new Customer();
 			CustomerPayload payload = payloadWrapper.getPayload();
 			value.setName(payload.getName());
 		}

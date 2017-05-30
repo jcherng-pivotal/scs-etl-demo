@@ -8,8 +8,9 @@ public class ItemExtractor implements PayloadWrapperExtractor<ItemPayload, Item>
 
 	@Override
 	public Item extractData(PayloadWrapper<ItemPayload> payloadWrapper) {
-		Item value = new Item();
+		Item value = null;
 		if (payloadWrapper.hasPayload()) {
+			value = new Item();
 			ItemPayload payload = payloadWrapper.getPayload();
 			value.setName(payload.getName());
 			value.setDescription(payload.getDescription());
