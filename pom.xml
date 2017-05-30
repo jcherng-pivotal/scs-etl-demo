@@ -60,17 +60,37 @@
 			</dependency>
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
-				<artifactId>jdbc-event-source</artifactId>
+				<artifactId>jdbc-event-processor-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
-				<artifactId>jdbc-event-processor</artifactId>
+				<artifactId>geode-sink-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
-				<artifactId>geode-sink</artifactId>
+				<artifactId>jdbc-event-source-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>jdbc-event-processor-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>geode-sink-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>jdbc-event-processor-extension</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.scs.demo</groupId>
+				<artifactId>geode-sink-extension</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -84,12 +104,16 @@
 
 	<modules>
 		<module>scs-model</module>
-		<module>jdbc-event-source</module>
-		<module>jdbc-event-processor</module>
-		<module>geode-sink</module>
+		<module>jdbc-event-processor-common</module>
+		<module>geode-sink-common</module>
+		<module>jdbc-event-source-core</module>
+		<module>jdbc-event-processor-core</module>
+		<module>geode-sink-core</module>
 		<module>scs-etl-integration-tests</module>
 		<module>jdbc-event-source-app</module>
 		<module>jdbc-event-processor-app</module>
 		<module>geode-sink-app</module>
+		<module>jdbc-event-processor-extension</module>
+		<module>geode-sink-extension</module>
 	</modules>
 </project>

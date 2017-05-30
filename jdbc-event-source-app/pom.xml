@@ -42,7 +42,7 @@
 
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-source</artifactId>
+			<artifactId>jdbc-event-source-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>

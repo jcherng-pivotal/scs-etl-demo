@@ -42,7 +42,11 @@
 
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>geode-sink</artifactId>
+			<artifactId>geode-sink-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.pivotal.scs.demo</groupId>
+			<artifactId>geode-sink-extension</artifactId>
 		</dependency>
 	</dependencies>
 </project>

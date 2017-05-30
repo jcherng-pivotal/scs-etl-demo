@@ -24,8 +24,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import io.pivotal.scs.demo.etl.geode.sink.GeodeClientConfiguration;
 import io.pivotal.scs.demo.etl.geode.sink.GeodeSink;
 import io.pivotal.scs.demo.etl.geode.sink.GeodeSinkConfiguration;
+import io.pivotal.scs.demo.etl.geode.sink.GeodeSinkExtensionConfiguration;
 import io.pivotal.scs.demo.etl.jdbc.processor.JdbcEventProcessor;
 import io.pivotal.scs.demo.etl.jdbc.processor.JdbcEventProcessorConfiguration;
+import io.pivotal.scs.demo.etl.jdbc.processor.JdbcEventProcessorExtensionConfiguration;
 import io.pivotal.scs.demo.etl.jdbc.source.JdbcEventSource;
 import io.pivotal.scs.demo.etl.jdbc.source.JdbcEventSourceConfiguration;
 import io.pivotal.scs.demo.model.etl.CustomerOrderPayload;
@@ -39,7 +41,9 @@ import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 		ScsEtlIntegrationTests.TestApplication.class,
 		JdbcEventSourceConfiguration.class,
 		JdbcEventProcessorConfiguration.class,
+		JdbcEventProcessorExtensionConfiguration.class,
 		GeodeSinkConfiguration.class,
+		GeodeSinkExtensionConfiguration.class,
 		GeodeClientConfiguration.class
 	},
 	properties ="spring.datasource.url=jdbc:h2:mem:test",

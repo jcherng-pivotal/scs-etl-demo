@@ -42,7 +42,11 @@
 
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-processor</artifactId>
+			<artifactId>jdbc-event-processor-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.pivotal.scs.demo</groupId>
+			<artifactId>jdbc-event-processor-extension</artifactId>
 		</dependency>
 	</dependencies>
 </project>
