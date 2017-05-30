@@ -1,5 +1,6 @@
 package io.pivotal.scs.demo.etl.geode.sink;
 
+import org.apache.geode.cache.client.ClientCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -55,10 +56,10 @@ public class GeodeSinkConfiguration {
 	}
 
 	@Bean
-	IntegrationFlow sinkFlow() {
+	IntegrationFlow sinkFlow(ClientCache clientCache) {
 		return IntegrationFlows.from(this.sink.input())
 				.aggregate(geodeAggregateConsumer)
-				.handle(new GeodeMessageHandler())
+				.handle(new GeodeMessageHandler(clientCache))
 				.get();
 	}
 }

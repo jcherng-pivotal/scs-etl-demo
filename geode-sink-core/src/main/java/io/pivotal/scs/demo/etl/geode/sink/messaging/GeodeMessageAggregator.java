@@ -25,14 +25,14 @@ public class GeodeMessageAggregator {
 	}
 
 	@Aggregator
-	public GeodeDataWrapper output(List<Message<PayloadWrapper<?>>> messages) {
+	public GeodeDataWrapper output(List<Message<PayloadWrapper>> messages) {
 		GeodeDataWrapper geodeDataWrapper = new GeodeDataWrapper();
-		for (Message<PayloadWrapper<?>> message : messages) {
+		for (Message<PayloadWrapper> message : messages) {
 			String geodeRegionName = (String) message.getHeaders().get("srcGroup");
 			Object geodeKey = message.getHeaders().get("srcKey");
-			PayloadWrapper payloadWrapper = message.getPayload();
-			PayloadWrapperExtractor<?, ?> extractor = 
-					(PayloadWrapperExtractor<?, ?>) context.getBean(geodeRegionName + "Extractor");
+			PayloadWrapper<?> payloadWrapper = message.getPayload();
+			PayloadWrapperExtractor extractor = 
+					(PayloadWrapperExtractor) context.getBean(geodeRegionName + "Extractor");
 			if(payloadWrapper.hasPayload()){
 				geodeDataWrapper.getSet().remove(geodeKey);
 				geodeDataWrapper.getMap().put(geodeKey, extractor.extractData(payloadWrapper));
@@ -45,7 +45,7 @@ public class GeodeMessageAggregator {
 	}
 
 	@CorrelationStrategy
-	public String correlation(Message<PayloadWrapper<?>> message) {
+	public String correlation(Message<?> message) {
 		int hashCode = message.getHeaders().get("srcKey").hashCode();
 		int divisor = groupCount;
 		return "[" + (String) message.getHeaders().get("srcGroup") + "]" 
@@ -53,7 +53,7 @@ public class GeodeMessageAggregator {
 	}
 
 	@ReleaseStrategy
-	public boolean canMessagesBeReleased(List<Message<PayloadWrapper<?>>> messages) {
+	public boolean canMessagesBeReleased(List<Message<?>> messages) {
 		return messages.size() >= batchSize;
 	}
 
