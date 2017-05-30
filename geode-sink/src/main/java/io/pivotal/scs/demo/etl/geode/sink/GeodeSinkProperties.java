@@ -30,10 +30,8 @@ public class GeodeSinkProperties {
 	private String locator;
 	private Integer port;
 	private Integer aggregatorGroupCount = 10;
-	private Integer putBatchSize = 1000;
-	private Integer putBatchTimeout = 1000;
-	private Integer removeBatchSize = 2000;
-	private Integer removeBatchTimeout = 2000;
+	private Integer batchSize = 1000;
+	private Integer batchTimeout = 1000;
 
 	public String getLocator() {
 		return locator;
@@ -59,36 +57,20 @@ public class GeodeSinkProperties {
 		this.aggregatorGroupCount = aggregatorGroupCount;
 	}
 
-	public Integer getPutBatchSize() {
-		return putBatchSize;
+	public Integer getBatchSize() {
+		return batchSize;
 	}
 
-	public void setPutBatchSize(Integer putBatchSize) {
-		this.putBatchSize = putBatchSize;
+	public void setBatchSize(Integer batchSize) {
+		this.batchSize = batchSize;
 	}
 
-	public Integer getPutBatchTimeout() {
-		return putBatchTimeout;
+	public Integer getBatchTimeout() {
+		return batchTimeout;
 	}
 
-	public void setPutBatchTimeout(Integer putBatchTimeout) {
-		this.putBatchTimeout = putBatchTimeout;
-	}
-
-	public Integer getRemoveBatchSize() {
-		return removeBatchSize;
-	}
-
-	public void setRemoveBatchSize(Integer removeBatchSize) {
-		this.removeBatchSize = removeBatchSize;
-	}
-
-	public Integer getRemoveBatchTimeout() {
-		return removeBatchTimeout;
-	}
-
-	public void setRemoveBatchTimeout(Integer removeBatchTimeout) {
-		this.removeBatchTimeout = removeBatchTimeout;
+	public void setBatchTimeout(Integer batchTimeout) {
+		this.batchTimeout = batchTimeout;
 	}
 
 }

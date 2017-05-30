@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.integration.dsl.AggregatorSpec;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.channel.DirectChannelSpec;
-import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.support.Consumer;
 
 import io.pivotal.scs.demo.etl.geode.sink.extractor.CustomerExtractor;
@@ -18,7 +16,6 @@ import io.pivotal.scs.demo.etl.geode.sink.extractor.ItemExtractor;
 import io.pivotal.scs.demo.etl.geode.sink.extractor.PayloadWrapperExtractor;
 import io.pivotal.scs.demo.etl.geode.sink.messaging.GeodeMessageAggregator;
 import io.pivotal.scs.demo.etl.geode.sink.messaging.GeodeMessageHandler;
-import io.pivotal.scs.demo.etl.geode.sink.messaging.GeodeMessageTransformer;
 import io.pivotal.scs.demo.model.etl.CustomerOrderPayload;
 import io.pivotal.scs.demo.model.etl.CustomerPayload;
 import io.pivotal.scs.demo.model.etl.ItemPayload;
@@ -43,20 +40,10 @@ public class GeodeSinkConfiguration {
 	private GeodeSinkProperties properties;
 	
 	@Autowired
-	private GeodeMessageAggregator geodePutAggregator;
+	private GeodeMessageAggregator geodeAggregator;
 	
 	@Autowired
-	private GeodeMessageAggregator geodeRemoveAggregator;
-	
-	@Autowired
-	private Consumer<AggregatorSpec> geodeRemoveAggregateConsumer;
-	
-	@Autowired
-	private Consumer<AggregatorSpec> geodePutAggregateConsumer;
-	
-	private DirectChannelSpec geodePutChannel = MessageChannels.direct("geodePutChannel");
-
-	private DirectChannelSpec geodeRemoveChannel = MessageChannels.direct("geodeRemoveChannel");
+	private Consumer<AggregatorSpec> geodeAggregateConsumer;
 
 	@Bean
 	PayloadWrapperExtractor<CustomerPayload, Customer> customerExtractor() {
@@ -74,36 +61,17 @@ public class GeodeSinkConfiguration {
 	}
 	
 	@Bean
-	GeodeMessageAggregator geodePutAggregator() {
-		return new GeodeMessageAggregator(properties.getAggregatorGroupCount(), properties.getPutBatchSize());
+	GeodeMessageAggregator geodeAggregator() {
+		return new GeodeMessageAggregator(context, properties.getAggregatorGroupCount(), properties.getBatchSize());
 	}
 	
 	@Bean
-	GeodeMessageAggregator geodeRemoveAggregator() {
-		return new GeodeMessageAggregator(properties.getAggregatorGroupCount(), properties.getPutBatchSize());
-	}
-	
-	@Bean
-	Consumer<AggregatorSpec> geodePutAggregateConsumer() {
+	Consumer<AggregatorSpec> geodeAggregateConsumer() {
 		return new Consumer<AggregatorSpec>() {
 			@Override
 			public void accept(AggregatorSpec aggregatorSpec) {
-				aggregatorSpec.processor(geodePutAggregator, null);
-				aggregatorSpec.groupTimeout(properties.getPutBatchTimeout());
-				aggregatorSpec.sendPartialResultOnExpiry(true);
-				aggregatorSpec.expireGroupsUponCompletion(true);
-				aggregatorSpec.expireGroupsUponTimeout(true);
-			}
-		};
-	}
-
-	@Bean
-	Consumer<AggregatorSpec> geodeRemoveAggregateConsumer() {
-		return new Consumer<AggregatorSpec>() {
-			@Override
-			public void accept(AggregatorSpec aggregatorSpec) {
-				aggregatorSpec.processor(geodeRemoveAggregator, null);
-				aggregatorSpec.groupTimeout(properties.getRemoveBatchTimeout());
+				aggregatorSpec.processor(geodeAggregator, null);
+				aggregatorSpec.groupTimeout(properties.getBatchTimeout());
 				aggregatorSpec.sendPartialResultOnExpiry(true);
 				aggregatorSpec.expireGroupsUponCompletion(true);
 				aggregatorSpec.expireGroupsUponTimeout(true);
@@ -114,23 +82,7 @@ public class GeodeSinkConfiguration {
 	@Bean
 	IntegrationFlow sinkFlow() {
 		return IntegrationFlows.from(this.sink.input())
-				.transform(new GeodeMessageTransformer(context))
-				.route("headers['geodeActionChannel']")
-				.get();
-	}
-
-	@Bean
-	IntegrationFlow geodePutFlow() {
-		return IntegrationFlows.from(this.geodePutChannel)
-				.aggregate(geodePutAggregateConsumer)
-				.handle(new GeodeMessageHandler())
-				.get();
-	}
-
-	@Bean
-	IntegrationFlow geodeRemoveFlow() {
-		return IntegrationFlows.from(this.geodeRemoveChannel)
-				.aggregate(geodeRemoveAggregateConsumer)
+				.aggregate(geodeAggregateConsumer)
 				.handle(new GeodeMessageHandler())
 				.get();
 	}

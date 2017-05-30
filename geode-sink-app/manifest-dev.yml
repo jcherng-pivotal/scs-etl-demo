@@ -24,8 +24,6 @@ applications:
       "geode-sink.locator":"127.0.0.1", 
       "geode-sink.port":"10334", 
       "geode-sink.aggregatorGroupCount":"2", 
-      "geode-sink.putBatchSize":"1000", 
-      "geode-sink.putBatchTimeout":"1000", 
-      "geode-sink.putBatchSize":"2000", 
-      "geode-sink.putBatchTimeout":"2000"
+      "geode-sink.batchSize":"1000", 
+      "geode-sink.batchTimeout":"1000"
       }'
