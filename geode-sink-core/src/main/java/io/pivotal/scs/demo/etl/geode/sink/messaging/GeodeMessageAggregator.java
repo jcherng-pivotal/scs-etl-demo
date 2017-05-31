@@ -27,6 +27,9 @@ import org.springframework.messaging.Message;
 import io.pivotal.scs.demo.etl.geode.sink.extractor.PayloadWrapperExtractor;
 import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 
+/**
+ * @author Jeff Cherng
+ */
 public class GeodeMessageAggregator {
 
 	private final ApplicationContext context;
@@ -50,11 +53,11 @@ public class GeodeMessageAggregator {
 			PayloadWrapperExtractor extractor = 
 					(PayloadWrapperExtractor) context.getBean(geodeRegionName + "Extractor");
 			if(payloadWrapper.hasPayload()){
-				geodeDataWrapper.getSet().remove(geodeKey);
-				geodeDataWrapper.getMap().put(geodeKey, extractor.extractData(payloadWrapper));
+				geodeDataWrapper.getKeySetForRemove().remove(geodeKey);
+				geodeDataWrapper.getDataMapForPut().put(geodeKey, extractor.extractData(payloadWrapper));
 			} else {
-				geodeDataWrapper.getMap().remove(geodeKey);
-				geodeDataWrapper.getSet().add(geodeKey);
+				geodeDataWrapper.getDataMapForPut().remove(geodeKey);
+				geodeDataWrapper.getKeySetForRemove().add(geodeKey);
 			}
 		}
 		return geodeDataWrapper;

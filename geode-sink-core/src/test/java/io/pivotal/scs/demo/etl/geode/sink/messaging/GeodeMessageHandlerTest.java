@@ -34,6 +34,9 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 
+/**
+ * @author Jeff Cherng
+ */
 public class GeodeMessageHandlerTest {
 
 	private GeodeMessageHandler geodeMessageHandler;
@@ -56,9 +59,9 @@ public class GeodeMessageHandlerTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void testHandleMessage() {
 		GeodeDataWrapper geodeDataWrapper = new GeodeDataWrapper();
-		geodeDataWrapper.getMap().put("key1", "value1");
-		geodeDataWrapper.getMap().put("key2", "value2");
-		geodeDataWrapper.getSet().add("key1");
+		geodeDataWrapper.getDataMapForPut().put("key1", "value1");
+		geodeDataWrapper.getDataMapForPut().put("key2", "value2");
+		geodeDataWrapper.getKeySetForRemove().add("key1");
 
 		Message<GeodeDataWrapper> message = MessageBuilder
 		.withPayload(geodeDataWrapper)
@@ -69,11 +72,11 @@ public class GeodeMessageHandlerTest {
 
 		ArgumentCaptor<Map> mapCaptor = ArgumentCaptor.forClass(Map.class);
 		verify(region, times(1)).putAll(mapCaptor.capture());
-		assertThat(geodeDataWrapper.getMap(), is(mapCaptor.getValue()));
+		assertThat(geodeDataWrapper.getDataMapForPut(), is(mapCaptor.getValue()));
 
 		ArgumentCaptor<Set> setCaptor = ArgumentCaptor.forClass(Set.class);
 		verify(region, times(1)).removeAll(setCaptor.capture());
-		assertThat(geodeDataWrapper.getMap(), is(mapCaptor.getValue()));
+		assertThat(geodeDataWrapper.getDataMapForPut(), is(mapCaptor.getValue()));
 	}
 
 }

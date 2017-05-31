@@ -21,15 +21,27 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Jeff Cherng
+ */
 public class GeodeDataWrapper {
-	private Map<Object, Object> map = new HashMap<>();
-	private Set<Object> set = new HashSet<>();
+	private Map<Object, Object> dataMapForPut = new HashMap<>();
+	private Set<Object> keySetForRemove = new HashSet<>();
 
-	public Map<Object, Object> getMap() {
-		return map;
+	public Map<Object, Object> getDataMapForPut() {
+		return dataMapForPut;
 	}
 
-	public Set<Object> getSet() {
-		return set;
+	public void setDataMapForPut(Map<Object, Object> dataMapForPut) {
+		this.dataMapForPut = dataMapForPut;
 	}
+
+	public Set<Object> getKeySetForRemove() {
+		return keySetForRemove;
+	}
+
+	public void setKeySetForRemove(Set<Object> keySetForRemove) {
+		this.keySetForRemove = keySetForRemove;
+	}
+
 }

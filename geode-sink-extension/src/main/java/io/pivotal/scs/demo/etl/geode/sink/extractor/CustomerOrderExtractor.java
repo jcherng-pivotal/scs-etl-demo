@@ -20,6 +20,9 @@ import io.pivotal.scs.demo.model.etl.CustomerOrderPayload;
 import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 import io.pivotal.scs.demo.model.geode.pdx.CustomerOrder;
 
+/**
+ * @author Jeff Cherng
+ */
 public class CustomerOrderExtractor implements PayloadWrapperExtractor<CustomerOrderPayload, CustomerOrder> {
 
 	@Override

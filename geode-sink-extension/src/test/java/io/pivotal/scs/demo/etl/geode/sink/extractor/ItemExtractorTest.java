@@ -26,6 +26,9 @@ import io.pivotal.scs.demo.model.etl.ItemPayload;
 import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 import io.pivotal.scs.demo.model.geode.pdx.Item;
 
+/**
+ * @author Jeff Cherng
+ */
 public class ItemExtractorTest {
 
 	@Test

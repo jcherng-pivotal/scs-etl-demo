@@ -19,6 +19,9 @@ package io.pivotal.scs.demo.etl.jdbc.source;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Jeff Cherng
+ */
 @SpringBootApplication
 public class JdbcEventSourceApplication {
 

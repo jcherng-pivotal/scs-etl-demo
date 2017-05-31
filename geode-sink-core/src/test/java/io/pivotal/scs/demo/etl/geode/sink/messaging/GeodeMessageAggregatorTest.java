@@ -33,6 +33,9 @@ import org.springframework.messaging.support.MessageBuilder;
 import io.pivotal.scs.demo.etl.geode.sink.extractor.PayloadWrapperExtractor;
 import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 
+/**
+ * @author Jeff Cherng
+ */
 public class GeodeMessageAggregatorTest {
 	private final int groupCount = 2;
 	private final int batchSize = 2;
@@ -76,8 +79,8 @@ public class GeodeMessageAggregatorTest {
 		
 		GeodeDataWrapper geodeDataWrapper =  geodeMessageAggregator.output(messages);
 		
-		assertThat(geodeDataWrapper.getMap().containsKey("key1"), is(false));
-		assertThat(geodeDataWrapper.getMap().containsKey("key2"), is(true));
+		assertThat(geodeDataWrapper.getDataMapForPut().containsKey("key1"), is(false));
+		assertThat(geodeDataWrapper.getDataMapForPut().containsKey("key2"), is(true));
 	}
 
 	@Test

@@ -27,6 +27,9 @@ import org.springframework.messaging.support.MessageBuilder;
 import io.pivotal.scs.demo.etl.jdbc.processor.dao.PayloadWrapperDao;
 import io.pivotal.scs.demo.model.etl.PayloadWrapper;
 
+/**
+ * @author Jeff Cherng
+ */
 public class JdbcEventMessageHandler {
 	private final ApplicationContext context;
 

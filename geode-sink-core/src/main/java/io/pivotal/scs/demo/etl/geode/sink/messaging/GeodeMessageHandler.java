@@ -21,6 +21,9 @@ import org.apache.geode.cache.client.ClientCache;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+/**
+ * @author Jeff Cherng
+ */
 public class GeodeMessageHandler {
 	private final ClientCache clientCache;
 
@@ -34,7 +37,7 @@ public class GeodeMessageHandler {
 		GeodeDataWrapper payload = message.getPayload();
 		String regionName = (String) headers.get("srcGroup");
 		Region<Object, Object> region = clientCache.getRegion(regionName);
-		region.putAll(payload.getMap());
-		region.removeAll(payload.getSet());
+		region.putAll(payload.getDataMapForPut());
+		region.removeAll(payload.getKeySetForRemove());
 	}
 }
