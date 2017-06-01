@@ -1,6 +1,7 @@
 start locator --name=locator
-configure pdx --auto-serializable-classes=io\.pivotal\.scs\.demo\.model\.geode\.pdx\.* --read-serialized=true
+configure pdx --auto-serializable-classes=io\.pivotal\.scs\.demo\.model\.geode\.pdx\.* --read-serialized=true --disk-store=pdx-diskstore
 start server --name=server
+create disk-store --name=pdx-diskstore --dir=./
 create region --name=customer --type=PARTITION --skip-if-exists
 create region --name=customerOrder --type=PARTITION --skip-if-exists
 create region --name=item --type=PARTITION --skip-if-exists
