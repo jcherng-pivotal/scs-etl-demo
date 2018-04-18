@@ -16,6 +16,8 @@
 
 package io.pivotal.scs.demo.etl.geode.sink;
 
+import java.net.URI;
+
 import javax.annotation.PreDestroy;
 
 import org.apache.geode.cache.Cache;
@@ -29,15 +31,24 @@ import org.apache.geode.pdx.ReflectionBasedAutoSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cloud.Cloud;
+import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
 
 /**
  * @author Jeff Cherng
  */
 @Configuration
 public class GeodeClientConfiguration {
+
+	private static final String SECURITY_CLIENT = "security-client-auth-init";
+	private static final String SECURITY_USERNAME = "security-username";
+	private static final String SECURITY_PASSWORD = "security-password";
 
 	@Autowired
 	private ClientCache clientCache;
@@ -73,11 +84,9 @@ public class GeodeClientConfiguration {
 		@ConditionalOnMissingBean({ Cache.class, ClientCache.class })
 		@ConditionalOnClass({ ClientCache.class })
 		ClientCache clientCache(PdxSerializer pdxSerializer) {
-			return new ClientCacheFactory()
-					.setPdxSerializer(pdxSerializer)
-					.create();
+			return new ClientCacheFactory().setPdxSerializer(pdxSerializer).create();
 		}
-		
+
 		@Bean
 		ClientRegionFactory clientRegionFactory(ClientCache clientCache) {
 			return clientCache.createClientRegionFactory(ClientRegionShortcut.LOCAL);
@@ -88,18 +97,32 @@ public class GeodeClientConfiguration {
 	protected static class CloudConfiguration {
 		@Autowired
 		private GeodeSinkProperties properties;
-		
+
 		@Bean
 		@ConditionalOnMissingBean({ Cache.class, ClientCache.class })
 		@ConditionalOnClass({ ClientCache.class })
 		ClientCache clientCache(PdxSerializer pdxSerializer) {
-			// TODO: access the locator from binding service
-			return new ClientCacheFactory()
-					.setPdxSerializer(pdxSerializer)
-					.addPoolLocator(properties.getLocator(), properties.getPort())
-					.create();
+			Cloud cloud = new CloudFactory().getCloud();
+			for (ServiceInfo serviceInfo : cloud.getServiceInfos()) {
+				if (serviceInfo instanceof GemfireServiceInfo) {
+					GemfireServiceInfo gemfireServiceInfo = (GemfireServiceInfo) serviceInfo;
+					ClientCacheFactory factory = new ClientCacheFactory();
+					for (URI locator : gemfireServiceInfo.getLocators()) {
+						factory.addPoolLocator(locator.getHost(), locator.getPort());
+					}
+
+					factory.set(SECURITY_CLIENT, "io.pivotal.scs.demo.etl.geode.sink.UserAuthInitialize.create");
+					factory.set(SECURITY_USERNAME, gemfireServiceInfo.getUsername());
+					factory.set(SECURITY_PASSWORD, gemfireServiceInfo.getPassword());
+					factory.setPdxSerializer(pdxSerializer);
+					factory.setPoolSubscriptionEnabled(true); // to enable CQ
+					return factory.create();
+				}
+			}
+
+			throw new IllegalArgumentException("Gemfire Service Not Found!!");
 		}
-		
+
 		@Bean
 		ClientRegionFactory clientRegionFactory(ClientCache clientCache) {
 			return clientCache.createClientRegionFactory(ClientRegionShortcut.PROXY);

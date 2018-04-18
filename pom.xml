@@ -17,7 +17,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<app-starters-core-dependencies.version>1.2.0.RELEASE</app-starters-core-dependencies.version>
-		<geode.version>1.1.1</geode.version>
+		<gemfire.version>9.3.0</gemfire.version>
+		<spring-cloud-gemfire-cloudfoundry-connector.version>1.2.0.RELEASE</spring-cloud-gemfire-cloudfoundry-connector.version>
 	</properties>
 
 	<repositories>
@@ -49,23 +50,18 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.geode</groupId>
+				<groupId>io.pivotal.gemfire</groupId>
 				<artifactId>geode-core</artifactId>
-				<version>${geode.version}</version>
+				<version>${gemfire.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.spring.cloud</groupId>
+				<artifactId>spring-cloud-gemfire-cloudfoundry-connector</artifactId>
+				<version>${spring-cloud-gemfire-cloudfoundry-connector.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.pivotal.scs.demo</groupId>
 				<artifactId>scs-model</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.pivotal.scs.demo</groupId>
-				<artifactId>jdbc-event-processor-common</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.pivotal.scs.demo</groupId>
-				<artifactId>geode-sink-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -104,16 +100,14 @@
 
 	<modules>
 		<module>scs-model</module>
-		<module>jdbc-event-processor-common</module>
-		<module>geode-sink-common</module>
 		<module>jdbc-event-source-core</module>
 		<module>jdbc-event-processor-core</module>
 		<module>geode-sink-core</module>
-		<module>scs-etl-integration-tests</module>
+		<module>jdbc-event-processor-extension</module>
+		<module>geode-sink-extension</module>
 		<module>jdbc-event-source-app</module>
 		<module>jdbc-event-processor-app</module>
 		<module>geode-sink-app</module>
-		<module>jdbc-event-processor-extension</module>
-		<module>geode-sink-extension</module>
+		<module>scs-etl-integration-tests</module>
 	</modules>
 </project>

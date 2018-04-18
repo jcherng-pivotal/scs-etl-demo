@@ -9,3 +9,15 @@ create region --name=item --type=PARTITION --skip-if-exists
 query --query="select * from /customer"
 query --query="select * from /customerOrder"
 query --query="select * from /item"
+
+destroy region --name=/customer
+destroy region --name=/customerOrder
+destroy region --name=/item
+
+create region --name=customer --type=PARTITION --skip-if-exists
+create region --name=customerOrder --type=PARTITION --skip-if-exists
+create region --name=item --type=PARTITION --skip-if-exists
+
+query --query="select * from /customer"
+query --query="select * from /customerOrder"
+query --query="select * from /item"

@@ -9,7 +9,7 @@
 	<artifactId>scs-model</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.geode</groupId>
+			<groupId>io.pivotal.gemfire</groupId>
 			<artifactId>geode-core</artifactId>
 		</dependency>
 	</dependencies>

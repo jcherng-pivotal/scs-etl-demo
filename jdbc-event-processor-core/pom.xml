@@ -28,7 +28,7 @@
 
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-processor-common</artifactId>
+			<artifactId>scs-model</artifactId>
 		</dependency>
 
 		<dependency>

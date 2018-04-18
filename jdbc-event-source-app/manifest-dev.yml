@@ -1,6 +1,6 @@
 path: target/jdbc-event-source-app-0.0.1-SNAPSHOT.jar
 port: 8888
-memory: 512M
+memory: 1024M
 services:
 - mysql-dev
 - rabbitmq-dev

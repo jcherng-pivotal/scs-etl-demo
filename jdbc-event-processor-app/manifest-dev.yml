@@ -18,7 +18,7 @@ env:
 applications:
 - name: jdbc-event-processor-app-dev
   host: jdbc-event-processor-app-dev
-  memory: 512M
+  memory: 1024M
   env:
     SPRING_APPLICATION_JSON: '{
       "spring.cloud.stream.bindings.input.group":"jdbc-event-processor", 

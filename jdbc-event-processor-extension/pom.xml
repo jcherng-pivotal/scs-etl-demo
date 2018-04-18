@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>jdbc-event-processor-common</artifactId>
+			<artifactId>jdbc-event-processor-core</artifactId>
 		</dependency>
 
 		<dependency>

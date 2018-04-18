@@ -27,27 +27,9 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("geode-sink")
 @Validated
 public class GeodeSinkProperties {
-	private String locator;
-	private Integer port;
 	private Integer aggregatorGroupCount = 10;
 	private Integer batchSize = 1000;
 	private Integer batchTimeout = 1000;
-
-	public String getLocator() {
-		return locator;
-	}
-
-	public void setLocator(String locator) {
-		this.locator = locator;
-	}
-
-	public Integer getPort() {
-		return port;
-	}
-
-	public void setPort(Integer port) {
-		this.port = port;
-	}
 
 	public Integer getAggregatorGroupCount() {
 		return aggregatorGroupCount;

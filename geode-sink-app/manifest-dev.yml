@@ -1,8 +1,9 @@
 path: target/geode-sink-app-0.0.1-SNAPSHOT.jar
 port: 8888
-memory: 512M
+memory: 1024M
 services:
 - rabbitmq-dev
+- pcc-dev
 env:
     spring.cloud.stream.rabbit.bindings.input.consumer.autoBindDlq: true
     spring.cloud.stream.rabbit.bindings.input.consumer.republishToDlq: true
@@ -21,8 +22,6 @@ applications:
       "spring.cloud.stream.bindings.input.consumer.concurrency":"2", 
       "spring.cloud.stream.bindings.input.group":"geode-sink", 
       "spring.cloud.stream.bindings.input.destination":"jdbc-event-result", 
-      "geode-sink.locator":"127.0.0.1", 
-      "geode-sink.port":"10334", 
       "geode-sink.aggregatorGroupCount":"2", 
       "geode-sink.batchSize":"1000", 
       "geode-sink.batchTimeout":"1000"

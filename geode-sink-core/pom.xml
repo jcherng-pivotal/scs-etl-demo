@@ -19,13 +19,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.geode</groupId>
+			<groupId>io.pivotal.gemfire</groupId>
 			<artifactId>geode-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.pivotal.spring.cloud</groupId>
+			<artifactId>spring-cloud-gemfire-cloudfoundry-connector</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>geode-sink-common</artifactId>
+			<artifactId>scs-model</artifactId>
 		</dependency>
 
 

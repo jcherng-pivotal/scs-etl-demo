@@ -15,7 +15,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.pivotal.scs.demo</groupId>
-			<artifactId>geode-sink-common</artifactId>
+			<artifactId>geode-sink-core</artifactId>
 		</dependency>
 
 		<dependency>
